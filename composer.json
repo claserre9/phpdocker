@@ -1,0 +1,16 @@
+{
+    "name": "claserre/phpdocker",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Clifford Laserre",
+            "email": "claserre9@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "require": {}
+}
