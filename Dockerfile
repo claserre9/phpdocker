@@ -9,7 +9,7 @@ RUN apt-get update && \
     git \
     libzip-dev \
     unzip && \
-    docker-php-ext-install mysqli && \
+    docker-php-ext-install mysqli pdo_mysql && \
     pecl install redis && \
     docker-php-ext-enable redis && \
     apt-get clean && \
@@ -23,7 +23,9 @@ RUN chown -R www-data:www-data /app
 
 # Switch to www-data user and install dependencies with Composer
 USER www-data
-RUN composer install --no-interaction
+
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Switch back to root user for further setup (optional)
 USER root

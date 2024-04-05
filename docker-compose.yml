@@ -3,20 +3,13 @@ services:
     redis:
         image: 'redis:alpine'
         volumes:
-            - redis-data:/data
-
-    redis-commander:
-        image: rediscommander/redis-commander:latest
-        environment:
-            - REDIS_HOSTS=local:redis:6379
-        ports:
-            - '8082:8081'
+            - 'redis-data:/data'
 
     mysql:
         image: 'mysql:8.0'
         working_dir: /app
         volumes:
-            - mysql-data:/var/lib/mysql
+            - 'mysql-data:/var/lib/mysql'
             - '.:/app'
         environment:
             - MYSQL_ROOT_PASSWORD=root
@@ -41,7 +34,7 @@ services:
         volumes:
             - '.:/app'
             - './nginx.conf:/etc/nginx/conf.d/default.conf'
-            - nginx-logs:/var/log/nginx
+            - 'nginx-logs:/var/log/nginx'
         ports:
             - '16000:80'
 
@@ -50,9 +43,10 @@ services:
         working_dir: /app
         volumes:
             - '.:/app'
+            - './vendor:/app/vendor'
             - './php-ini-overrides.ini:/etc/php/8.2/fpm/conf.d/99-overrides.ini'
-            - php-logs:/var/log/php
-
+            - 'php-logs:/var/log/php'
+        user: www-data
 
 volumes:
     redis-data:
