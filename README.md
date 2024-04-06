@@ -12,14 +12,6 @@ This project sets up a multi-container Docker application, orchestrating various
 - **Volumes**: 
   - `redis-data` is used to persist data stored in Redis.
 
-### Redis Commander
-- **Image**: `rediscommander/redis-commander:latest`
-- **Purpose**: Offers a web-based user interface to manage Redis databases.
-- **Environment Variables**:
-  - `REDIS_HOSTS` specifies the Redis instance to connect to.
-- **Ports**:
-  - Maps port 8081 inside the container to port 8082 on the host.
-
 ### MySQL
 - **Image**: `mysql:8.0`
 - **Purpose**: Offers database services.
@@ -68,10 +60,11 @@ The following volumes are defined for data persistence:
 To get started with this application, ensure you have Docker and Docker Compose installed. Then, navigate to the project's root directory and run:
 
 ```bash
-docker-compose up
+docker-compose up -d
 ```
 
-This command will start all the configured services. You can access PHPMyAdmin at `http://localhost:8080`, Redis Commander at `http://localhost:8082`, and the webserver at `http://localhost:16000`. 
+This command will start all the configured services. You can access PHPMyAdmin at `http://localhost:8080`
+and the webserver at `http://localhost:16000`. 
 
 ## Customization
 You can customize the application by modifying the `docker-compose.yml` file to suit your needs, adjusting service configurations, environment variables, and port mappings as necessary.
