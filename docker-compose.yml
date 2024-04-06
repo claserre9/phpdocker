@@ -46,7 +46,6 @@ services:
             - './vendor:/app/vendor'
             - './php-ini-overrides.ini:/etc/php/8.2/fpm/conf.d/99-overrides.ini'
             - 'php-logs:/var/log/php'
-        user: www-data
 
 volumes:
     redis-data:

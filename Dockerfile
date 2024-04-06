@@ -1,8 +1,4 @@
 FROM php:8.2-fpm
-WORKDIR /app
-
-# Copy composer.lock and composer.json
-COPY composer.* /app/
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -15,17 +11,13 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Grant write permissions for composer
-RUN chown -R www-data:www-data /app
+WORKDIR /app
 
-# Switch to www-data user and install dependencies with Composer
-USER www-data
+COPY . /app
 
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
 
-# Switch back to root user for further setup (optional)
-USER root
+CMD ["/start.sh"]

@@ -30,7 +30,7 @@ class EntityManagerFactory
         $proxyDir = __DIR__ . '/../cache/proxies';
 
         $config = ORMSetup::createAttributeMetadataConfiguration(
-            array(__DIR__.'/../src', __DIR__.'/../tests'),
+            array(__DIR__.'/../src',),
             true,
             $proxyDir,
             $cache

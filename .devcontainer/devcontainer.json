@@ -1,7 +1,0 @@
-{
-  "name": "PHP Symfony Dev Container",
-  "dockerFile": "Dockerfile",
-  "appPort": 8000,
-  "settings": {},
-  "remoteUser": "vscode"
-}
