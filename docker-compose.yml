@@ -4,6 +4,9 @@ services:
         image: 'redis:alpine'
         volumes:
             - 'redis-data:/data'
+        ports:
+            - '8888:6379'  # Expose mappings for "host:container".
+
 
     mysql:
         image: 'mysql:8.0'

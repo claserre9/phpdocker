@@ -6,8 +6,9 @@ use Doctrine\Common\EventManager;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Tools\DsnParser;
+use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMSetup;
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 class EntityManagerFactory
@@ -24,26 +25,27 @@ class EntityManagerFactory
         $client = RedisAdapter::createConnection(
             'redis://redis'
         );
-        $cache = new RedisAdapter($client);
 
-        // Proxy directory
-        $proxyDir = __DIR__ . '/../cache/proxies';
+        $queryCache = new RedisAdapter($client);
+        $metadataCache = new RedisAdapter($client);
 
-        $config = ORMSetup::createAttributeMetadataConfiguration(
-            array(__DIR__.'/../src',),
-            true,
-            $proxyDir,
-            $cache
-        );
+        $config = new Configuration;
+        $config->setMetadataCache($metadataCache);
+        $driverImpl = new AttributeDriver([__DIR__.'/../src/entities'], true);
+        $config->setMetadataDriverImpl($driverImpl);
+        $config->setQueryCache($queryCache);
+        $config->setProxyDir(__DIR__ . '/../cache/proxies');
+        $config->setProxyNamespace('App\proxies');
+        $config->setAutoGenerateProxyClasses(false);
 
         $dsnParser = new DsnParser();
         $connectionParams = $dsnParser
             ->parse('mysqli://user:password@mysql:3306/app');
 
-        $conn = DriverManager::getConnection($connectionParams);
+        $connection = DriverManager::getConnection($connectionParams);
 
         $eventManager = new EventManager();
 
-        return new EntityManager($conn, $config, $eventManager);
+        return new EntityManager($connection, $config, $eventManager);
     }
 }
