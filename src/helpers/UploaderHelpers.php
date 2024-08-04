@@ -12,15 +12,15 @@ use Slim\Psr7\UploadedFile;
  */
 class UploaderHelpers
 {
-    protected Uploader $uploader;
+	protected Uploader $uploader;
 
-    public function __construct(Uploader $uploader)
-    {
-        $this->uploader = $uploader;
-    }
+	public function __construct(Uploader $uploader)
+	{
+		$this->uploader = $uploader;
+	}
 
-    public function upload(string $location, UploadedFile $file): string
-    {
-        return $this->uploader->upload($location, $file);
-    }
+	public function upload(string $location, UploadedFile $file): string
+	{
+		return $this->uploader->upload($location, $file);
+	}
 }

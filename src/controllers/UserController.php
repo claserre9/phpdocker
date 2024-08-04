@@ -146,7 +146,7 @@ class UserController extends AbstractController
 
     /**
      * @throws Exception
-     * @throws \Exception
+     * @throws Exception
      */
     public function sendActivationToken(Request $request, Response $response): ResponseInterface
     {
@@ -171,7 +171,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function passwordReset(Request $request, Response $response): ResponseInterface
     {

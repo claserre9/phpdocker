@@ -5,7 +5,7 @@ services:
         volumes:
             - 'redis-data:/data'
         ports:
-            - '8888:6379'  # Expose mappings for "host:container".
+            - '8888:6379'
 
 
     mysql:

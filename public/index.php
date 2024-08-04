@@ -56,19 +56,19 @@ try {
     //$app->get('/download/csv', [DownloadController::class, 'downloadCSV']);
 
 
-    $app->get('/static/{path:.+}', function ($request, $response, $args) {
-        $fullPath = __DIR__ . '/' . $args['path'];
-
-        // Check if the file exists
-        if (file_exists($fullPath) && is_file($fullPath)) {
-            $stream = fopen($fullPath, 'r');
-            return $response
-                ->withHeader('Content-Type', mime_content_type($fullPath))
-                ->withBody(new Stream($stream));
-        } else {
-            return $response->withStatus(404);
-        }
-    });
+//    $app->get('/static/{path:.+}', function ($request, $response, $args) {
+//        $fullPath = __DIR__ . '/' . $args['path'];
+//
+//        // Check if the file exists
+//        if (file_exists($fullPath) && is_file($fullPath)) {
+//            $stream = fopen($fullPath, 'r');
+//            return $response
+//                ->withHeader('Content-Type', mime_content_type($fullPath))
+//                ->withBody(new Stream($stream));
+//        } else {
+//            return $response->withStatus(404);
+//        }
+//    });
 
 
     $app->run();

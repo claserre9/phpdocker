@@ -13,39 +13,33 @@ use Symfony\Component\Cache\Adapter\RedisAdapter;
 
 class EntityManagerFactory
 {
-    /**
-     * Creates a new instance of the EntityManager.
-     *
-     * @return EntityManager The created EntityManager instance.
-     *
-     * @throws Exception
-     */
-    public static function create(): EntityManager
-    {
-        $client = RedisAdapter::createConnection(
-            'redis://redis'
-        );
+	/**
+	 * Creates a new instance of the EntityManager.
+	 *
+	 * @return EntityManager The created EntityManager instance.
+	 *
+	 * @throws Exception
+	 */
+	public static function create(): EntityManager
+	{
+		$client        = RedisAdapter::createConnection('redis://redis');
+		$queryCache    = new RedisAdapter($client);
+		$metadataCache = new RedisAdapter($client);
+		$config        = new Configuration;
 
-        $queryCache = new RedisAdapter($client);
-        $metadataCache = new RedisAdapter($client);
+		$config->setMetadataCache($metadataCache);
+		$driverImpl = new AttributeDriver([__DIR__ . '/../src/entities'], true);
+		$config->setMetadataDriverImpl($driverImpl);
+		$config->setQueryCache($queryCache);
+		$config->setProxyDir(__DIR__ . '/../cache/proxies');
+		$config->setProxyNamespace('App\proxies');
+		$config->setAutoGenerateProxyClasses(false);
 
-        $config = new Configuration;
-        $config->setMetadataCache($metadataCache);
-        $driverImpl = new AttributeDriver([__DIR__.'/../src/entities'], true);
-        $config->setMetadataDriverImpl($driverImpl);
-        $config->setQueryCache($queryCache);
-        $config->setProxyDir(__DIR__ . '/../cache/proxies');
-        $config->setProxyNamespace('App\proxies');
-        $config->setAutoGenerateProxyClasses(false);
+		$dsnParser        = new DsnParser();
+		$connectionParams = $dsnParser->parse('mysqli://user:password@mysql:3306/app');
+		$connection       = DriverManager::getConnection($connectionParams);
+		$eventManager     = new EventManager();
 
-        $dsnParser = new DsnParser();
-        $connectionParams = $dsnParser
-            ->parse('mysqli://user:password@mysql:3306/app');
-
-        $connection = DriverManager::getConnection($connectionParams);
-
-        $eventManager = new EventManager();
-
-        return new EntityManager($connection, $config, $eventManager);
-    }
+		return new EntityManager($connection, $config, $eventManager);
+	}
 }

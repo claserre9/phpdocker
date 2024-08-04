@@ -7,21 +7,21 @@ use Valitron\Validator;
 class UserValidators
 {
 
-    public static function validateUserRegistration($data): Validator
-    {
-        $validator = new Validator($data);
-        $validator->rule('required', ['name', 'email', 'password']);
-        $validator->rule('email', 'email');
-        $validator->rule('lengthMin', 'password', 8);
+	public static function validateUserRegistration($data): Validator
+	{
+		$validator = new Validator($data);
+		$validator->rule('required', ['name', 'email', 'password']);
+		$validator->rule('email', 'email');
+		$validator->rule('lengthMin', 'password', 8);
 
-        return $validator;
-    }
+		return $validator;
+	}
 
-    public static function validateUserLogin($data): Validator
-    {
-        $validator = new Validator($data);
-        $validator->rule('required', ['email', 'password']);
+	public static function validateUserLogin($data): Validator
+	{
+		$validator = new Validator($data);
+		$validator->rule('required', ['email', 'password']);
 
-        return $validator;
-    }
+		return $validator;
+	}
 }

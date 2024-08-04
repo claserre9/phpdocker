@@ -39,7 +39,6 @@ class AuthenticationMiddleware
             throw new HttpUnauthorizedException($request, $exception->getMessage());
         }
 
-
         return $handler->handle($request);
 
     }
